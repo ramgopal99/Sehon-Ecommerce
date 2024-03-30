@@ -1,2 +1,2 @@
-# Sehon-Ecommerce
+# Expo Startup App
  
