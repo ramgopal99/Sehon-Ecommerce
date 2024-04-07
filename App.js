@@ -1,23 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomePage from './src/screens/HomePage';
+import ProductDetailPage from './src/screens/ProductDetailPage';
+import CartPage from './src/screens/CartPage';
+import NavBar from './src/screens/NavBar';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Welcome to My Expo App</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="NavBar"
+          component={NavBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="ProductDetail" component={ProductDetailPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
+export default App;
