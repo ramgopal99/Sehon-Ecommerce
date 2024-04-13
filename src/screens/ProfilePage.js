@@ -1,29 +1,31 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfilePage = () => {
-  const handlePress = (text) => {
-    console.log(`${text} area pressed`);
-    // Handle navigation or any action related to the pressed area
+  const navigation = useNavigation();
+
+  const navigateToScreen = (screenName) => {
+    navigation.navigate(screenName);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Profile</Text>
-      <TouchableOpacity style={styles.area} onPress={() => handlePress('Account')}>
-        <Text style={styles.buttonText}>Account</Text>
+      <TouchableOpacity style={styles.area} onPress={() => navigateToScreen('ProductPage')}>
+        <Text style={styles.buttonText}>ProductPage</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.area} onPress={() => handlePress('Terms and Conditions')}>
+      <TouchableOpacity style={styles.area} onPress={() => navigateToScreen('SellerLogin')}>
+        <Text style={styles.buttonText}>Seller</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.area} onPress={() => navigateToScreen('TermsAndConditionsPage')}>
         <Text style={styles.buttonText}>Terms and Conditions</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.area} onPress={() => handlePress('About Us')}>
+      <TouchableOpacity style={styles.area} onPress={() => navigateToScreen('AboutUsPage')}>
         <Text style={styles.buttonText}>About Us</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.area} onPress={() => handlePress('Contact Us')}>
+      <TouchableOpacity style={styles.area} onPress={() => navigateToScreen('ContactUsPage')}>
         <Text style={styles.buttonText}>Contact Us</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.area} onPress={() => handlePress('Seller')}>
-        <Text style={styles.buttonText}>Seller</Text>
       </TouchableOpacity>
     </View>
   );
@@ -62,10 +64,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderWidth: 2,
     borderColor: '#0056b3',
-    overflow: 'hidden',
-    // Gradient background
-    backgroundColor: '#007bff',
-    borderRadius: 20,
     overflow: 'hidden',
   },
   buttonText: {

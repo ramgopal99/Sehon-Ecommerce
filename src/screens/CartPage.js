@@ -12,7 +12,7 @@ const CartPage = () => {
     try {
       const { product } = route.params;
 
-      // Extract title and price from the product object
+      // Extract title, id, and price from the product object
       const { id, title, price } = product;
 
       // Check if the product with the same ID already exists
@@ -55,35 +55,41 @@ const CartPage = () => {
     );
   };
 
+  // Calculate total price
+  const totalPrice = routeList.reduce((total, item) => total + (item.price * item.quantity), 0);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Your Cart</Text>
-      {routeList.length === 0 ? (
-        <Text>No items in the cart</Text>
-      ) : (
-        <ScrollView>
-          {routeList.map((route, index) => (
-            <View key={index} style={styles.itemContainer}>
-              <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{route.title}</Text>
-                <Text style={styles.itemPrice}>{route.price}</Text>
-              </View>
-              <View style={styles.quantityContainer}>
-                <TouchableOpacity onPress={() => decrementQuantity(route.id)} style={styles.quantityButton}>
-                  <Text style={styles.quantityButtonText}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantityText}>{route.quantity}</Text>
-                <TouchableOpacity onPress={() => incrementQuantity(route.id)} style={styles.quantityButton}>
-                  <Text style={styles.quantityButtonText}>+</Text>
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity onPress={() => removeItem(route.id)} style={styles.removeButton}>
-                <Text style={styles.removeButtonText}>Remove</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </ScrollView>
-      )}
+      <ScrollView style={{ flex: 1 }}>
+  {routeList.map((route, index) => (
+    <View key={index} style={styles.itemContainer}>
+      <View style={styles.itemInfo}>
+        <Text style={styles.itemName}>{route.title}</Text>
+        <Text style={styles.itemPrice}>Price: ${route.price.toFixed(2)}</Text>
+      </View>
+      <View style={styles.quantityContainer}>
+        <TouchableOpacity onPress={() => decrementQuantity(route.id)} style={styles.quantityButton}>
+          <Text style={styles.quantityButtonText}>-</Text>
+        </TouchableOpacity>
+        <Text style={styles.quantityText}>{route.quantity}</Text>
+        <TouchableOpacity onPress={() => incrementQuantity(route.id)} style={styles.quantityButton}>
+          <Text style={styles.quantityButtonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity onPress={() => removeItem(route.id)} style={styles.removeButton}>
+        <Text style={styles.removeButtonText}>Remove</Text>
+      </TouchableOpacity>
+    </View>
+  ))}
+</ScrollView>
+
+      <View style={styles.footer}>
+        <Text style={styles.totalPrice}>Total: ${totalPrice.toFixed(2)}</Text>
+        <TouchableOpacity style={styles.checkoutButton}>
+          <Text style={styles.checkoutButtonText}>Checkout</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -102,47 +108,85 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
-    backgroundColor: '#f5f5f5',
-    padding: 10,
-    borderRadius: 5,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   itemInfo: {
     flex: 1,
   },
   itemName: {
     fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
   itemPrice: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#888',
   },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   quantityButton: {
-    backgroundColor: 'lightgray',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
+    backgroundColor: '#eee',
+    borderRadius: 20,
+    padding: 5,
+    marginRight:5,
   },
   quantityButtonText: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#333',
   },
   quantityText: {
-    marginHorizontal: 10,
+    marginHorizontal: 15,
     fontSize: 18,
+    color: '#333',
   },
   removeButton: {
-    backgroundColor: 'red',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
+    backgroundColor: '#ff6347',
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginLeft:8,
   },
   removeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  footer: {
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+    paddingTop: 10,
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  totalPrice: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  checkoutButton: {
+    backgroundColor: '#20b5e3',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  checkoutButtonText: {
     color: 'white',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
